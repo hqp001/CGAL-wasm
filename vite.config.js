@@ -17,7 +17,7 @@ export default defineConfig({
     },
   },
   optimizeDeps: {
-    exclude: ['@cpp/module.js'], // Exclude generated files from dependency pre-bundling
+    exclude: ['@cpp/f.js'], // Exclude generated files from dependency pre-bundling
   },
   worker: {
     format: 'es', // Use ES modules for workers (useful if interacting with WebAssembly)
