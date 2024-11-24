@@ -7,11 +7,13 @@ body {
     justify-content: center;
     height: 100vh; /* Full screen height */
     overflow: hidden; /* Prevent scrolling */
+    background-color: lightyellow;
 }
 
 h1 {
-    margin-bottom: 20px;
+    margin-bottom: 60px;
     text-align: center;
+    font-size: 70px;
 }
 
 svg {
@@ -19,8 +21,9 @@ svg {
     cursor: none; /* Hide the default cursor */
     flex-shrink: 0; /* Prevent SVG from shrinking */
     width: 90%; /* SVG takes most of the column's width */
-    height: 80%; /* SVG takes most of the column's height */
+    height: 70%; /* SVG takes most of the column's height */
     box-sizing: border-box; /* Include padding/border in width/height */
+    background-color: white;
 }
 
 /* Custom cursor */
@@ -50,10 +53,11 @@ svg {
     align-items: center;
     justify-content: center; /* Center content within the column */
     width: 45%; /* Each column occupies 45% of the screen width */
-    height: 100%; /* Full screen height */
+    height: 90%; /* Full screen height */
     border: 1px solid #ccc; /* Optional: Add a border around each column */
-    border-radius: 10px; /* Optional: Rounded corners */
+    border-radius: 30px; /* Optional: Rounded corners */
     padding: 10px; /* Add padding inside the column */
-    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2); /* Optional: Add a shadow */
+    background-color: lightyellow;
+    box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.2); /* Optional: Add a shadow */
 }
 

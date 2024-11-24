@@ -5,34 +5,56 @@ import * as d3 from "d3";
 
 
 // Dynamically set width and height based on screen size
-const screenWidth = window.innerWidth;
-const screenHeight = window.innerHeight;
-
-// Set width and height for Euclidean SVG
-const euclideanWidth = screenWidth * 0.50; // Use 45% of the screen width
-const euclideanHeight = screenHeight * 0.50; // Use 90% of the screen height
 
 const euclideanSvg = d3.select("#euclidean-triangulation")
-    .attr("width", euclideanWidth)
-    .attr("height", euclideanHeight)
     .style("border", "1px solid #ccc")
     .style("cursor", "none");
-
-// Set width and height for Poincaré Model SVG
-const poincareSvg = d3.select("#poincare-model")
-    .attr("width", euclideanWidth)
-    .attr("height", euclideanHeight)
-    .style("border", "1px solid #ccc")
-    .style("cursor", "none");
-
-
 
 let euclideanPoints = [];
+initBallCursor(euclideanSvg);
+renderTriangulation(euclideanSvg, euclideanPoints);
+
+
+const poincareSvg = d3.select("#poincare-model")
+    .style("border", "1px solid #ccc")
+    .style("cursor", "none");
+
+// Function to draw or update the circle
+function drawCircle() {
+    // Get SVG dimensions dynamically
+    const width = poincareSvg.node().clientWidth;
+    const height = poincareSvg.node().clientHeight;
+
+    // Calculate center coordinates
+    const cx = width / 2;
+    const cy = height / 2;
+
+    // Calculate radius (optional: fit within the smallest dimension)
+    const radius = Math.min(width, height) / (2*1.2); // Subtract padding for better visibility
+
+    // Remove the old circle (if it exists)
+    poincareSvg.selectAll("circle").remove();
+
+    // Append a circle to the SVG
+    poincareSvg.append("circle")
+        .attr("id", "poincare-circle")
+        .attr("cx", cx) // Center x-coordinate
+        .attr("cy", cy) // Center y-coordinate
+        .attr("r", radius) // Circle radius
+        .attr("fill", "none") // Optional: Transparent fill
+        .attr("stroke", "black"); // Optional: Black stroke
+}
+
+// Initial draw
+drawCircle();
+
+// Redraw on window resize
+window.addEventListener("resize", drawCircle);
+
 let poincarePoints = [];
 
-// Add a ball cursor to both SVGs
-initBallCursor(euclideanSvg);
 initBallCursor(poincareSvg);
+//renderPoincare(poincareSvg, poincarePoints);
 
 // Handle clicks for Euclidean triangulation
 euclideanSvg.on("click", function (event) {
@@ -44,12 +66,15 @@ euclideanSvg.on("click", function (event) {
 // Handle clicks for Poincaré model
 poincareSvg.on("click", function (event) {
     const [x, y] = d3.pointer(event);
-    const radius = Math.min(poincareSvg.attr("width"), poincareSvg.attr("height")) / 2;
+    const circle = poincareSvg.select("#poincare-circle");
+    const cx = +circle.attr("cx"); // Circle center x-coordinate
+    const cy = +circle.attr("cy"); // Circle center y-coordinate
+    const radius = +circle.attr("r"); // Circle radius
 
     // Check if the point is inside the Poincaré disk
-    const dx = x - radius;
-    const dy = y - radius;
-    if (dx * dx + dy * dy <= (radius - 2) ** 2) {
+    const dx = x - cx;
+    const dy = y - cy;
+    if (dx * dx + dy * dy <= radius ** 2) {
         poincarePoints.push([x, y]); // Add valid points only
         renderPoincare(poincareSvg, poincarePoints); // Update Poincaré model
     }
@@ -57,6 +82,4 @@ poincareSvg.on("click", function (event) {
 
 
 // Initial rendering for both
-renderTriangulation(euclideanSvg, euclideanPoints);
-renderPoincare(poincareSvg, poincarePoints);
 

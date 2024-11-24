@@ -39,8 +39,14 @@ function drawArcFromPoints(svg, svgx, svgy, svg_radius, center_x, center_y, r, s
 
 export async function renderPoincare(svg, points) {
     // Clear previous visualization
-    svg.selectAll("*").remove();
+    svg.selectAll("*")
+        .filter(function () {
+            // Preserve the Poincaré circle by its unique ID
+            return !this.matches("#poincare-circle");
+    })
+    .remove();
 
+    console.log(points);
     svg.selectAll("circle")
         .data(points)
         .enter()
@@ -50,38 +56,17 @@ export async function renderPoincare(svg, points) {
         .attr("r", 5)
         .attr("fill", "red");
 
-const width = svg.attr("width");
-const height = svg.attr("height");
 
-// Calculate center coordinates and radius
-const cx = width / 2;
-const cy = height / 2;
-const radius = Math.min(width, height) * (20/100);
-
-    // Draw the Poincaré disk
-    svg.append("circle")
-        .attr("cx", cx)
-        .attr("cy", cy)
-        .attr("r", radius)
-        .attr("fill", "none")
-        .attr("stroke", "black")
-        .attr("stroke-width", 2);
-
-    // Filter points inside the disk
-    const filteredPoints = points.filter(([x, y]) => {
-        console.log("p points", x, y)
-        const dx = x - cx;
-        const dy = y - cy;
-        return dx * dx + dy * dy <= radius ** 2;
-    });
-
-    console.log(filteredPoints);
-
-    if (filteredPoints.length < 3) return;
+    if (points.length < 3) return;
 
     // Run Delaunay triangulation on filtered points
+    const circle = svg.select("#poincare-circle");
+    const cx = +circle.attr("cx"); // Circle center x-coordinate
+    const cy = +circle.attr("cy"); // Circle center y-coordinate
+    const radius = +circle.attr("r"); // Circle radius
 
-    const inputArray = filteredPoints.map(([x, y]) => ({
+
+    const inputArray = points.map(([x, y]) => ({
         x: (x - cx) / radius,
         y: (y - cy) / radius}));
 
@@ -105,5 +90,14 @@ const radius = Math.min(width, height) * (20/100);
 
 
     console.log("Filtered points and triangulation rendered.");
+    // Draw points
+    svg.selectAll("circle")
+        .data(points)
+        .enter()
+        .append("circle")
+        .attr("cx", d => d[0])
+        .attr("cy", d => d[1])
+        .attr("r", 5)
+        .attr("fill", "red");
 }
 
