@@ -17,7 +17,12 @@ body {
 h1 {
     margin-bottom: 60px;
     text-align: center;
-    font-size: 1.5vw;
+    font-size: 1.4vw;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%; /* Takes up full space of the container */
 }
 
 svg {
@@ -65,3 +70,6 @@ svg {
     box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.2); /* Optional: Add a shadow */
 }
 
+footer {
+    font-size: 1.1vw;
+}
