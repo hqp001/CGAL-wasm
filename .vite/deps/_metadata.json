@@ -1,0 +1,25 @@
+{
+  "hash": "46805455",
+  "configHash": "c2f53d2a",
+  "lockfileHash": "e3b0c442",
+  "browserHash": "15e11fb6",
+  "optimized": {
+    "d3": {
+      "src": "../../node_modules/d3/src/index.js",
+      "file": "d3.js",
+      "fileHash": "b5782985",
+      "needsInterop": false
+    },
+    "delaunator": {
+      "src": "../../node_modules/delaunator/index.js",
+      "file": "delaunator.js",
+      "fileHash": "aee7dd5e",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-FIVYNFNG": {
+      "file": "chunk-FIVYNFNG.js"
+    }
+  }
+}
