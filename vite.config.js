@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 
 export default defineConfig({
+  base: 'Hyperbolic-interactive',
   root: 'src', // Use 'src' as the project root
   build: {
     outDir: '../dist', // Output files to a 'dist' folder outside 'src'
